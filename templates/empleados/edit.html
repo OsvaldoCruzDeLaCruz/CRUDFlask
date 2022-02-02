@@ -1,0 +1,23 @@
+<h1>Actualizar datos</h1>
+
+
+{% for empleado in empleados %}
+<img src="/uploads/{{empleado[3]}}" alt="" width="80px" height="80px">
+<form method="post" action="/update/{{empleado[0]}}" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="Nombre">Nombre</label>
+      <input type="text" name="txtNombre" class="form-control" id="Nombre" placeholder={{empleado[1]}}>
+      
+    </div>
+    <div class="form-group">
+      <label for="Correo">Correo</label>
+      <input type="text" name="txtCorreo" class="form-control" id="Correo" placeholder={{empleado[2]}}>
+    </div>
+    <div class="form-group">
+        <label for="Foto">Foto</label>
+        <input type="file" name="txtFoto" class="form-control" id="Foto" placeholder="Password">
+      </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  {% endfor %}

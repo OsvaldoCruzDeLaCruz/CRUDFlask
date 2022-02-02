@@ -1,6 +1,6 @@
 
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request,url_for ,redirect, flash
 from flaskext.mysql import MySQL
 from flask import send_from_directory
 from datetime import datetime
@@ -8,6 +8,7 @@ import os
 
 
 app = Flask(__name__)
+app.secret_key="Develoteca"
 
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST']='localhost'
@@ -18,7 +19,7 @@ mysql.init_app(app)
 CARPETA = os.path.join('uploads')
 app.config['CARPETA']=CARPETA
 
-def delePhoto(id):
+def deletPhoto(id):
     conn = mysql.connect()
     cursor=conn.cursor()
     cursor.execute("SELECT foto FROM empleados WHERE id = %s", id)
@@ -47,6 +48,11 @@ def storage():
     _correo = request.form['txtCorreo']    
     _foto=request.files['txtFoto']    
 
+    if _nombre == '' or _correo == '' or _foto == '':
+        flash("Recuerda llenar los campos")
+        return redirect(url_for('create'))
+
+
     now = datetime.now()
     tiempo = now.strftime("%Y%H%M%S")
 
@@ -65,7 +71,7 @@ def storage():
 
 @app.route('/destroy/<int:id>')
 def destroy(id):
-    delePhoto(id)
+    deletPhoto(id)
     sql =  f"DELETE FROM `empleados` WHERE `empleados`.`id` = {id}"
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -112,7 +118,7 @@ def update(id):
     
     cursor.execute(sql,datos)
     conn.commit()
-    delePhoto(id)
+    deletPhoto(id)
     return redirect('/')
     
 

@@ -1,15 +1,35 @@
+{% include 'header.html' %}
+
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
 <form method="post" action="/store" enctype="multipart/form-data">
-    Nombre:
-    <input type="text" name="txtNombre" id="txtNombre">
-    <br>
-    Correo:    
-    <input type="text" name="txtCorreo" id="txtCorreo">
-    <br>
-    Foto:
-    <input type="file" name="txtFoto" id="txtFoto">
-    <br>
-    <br>
-    <input type="submit" value="Agregar">
+    
+        <div class="form-group">
+          <label for="Nombre">Nombre</label>
+          <input type="text" name="txtNombre" class="form-control" id="Nombre" >
+          
+        </div>
+        <div class="form-group">
+          <label for="Correo">Correo</label>
+          <input type="text" name="txtCorreo" class="form-control" id="Correo" >
+        </div>
+        <div class="form-group">
+            <label for="Foto">Foto</label>
+            <input type="file" name="txtFoto" class="form-control" id="Foto" >
+          </div>
+        
+        <button type="submit" class="btn btn-success">Aceptar</button>
+      </form>
 
     
 </form>
+{% include 'footer.html' %}

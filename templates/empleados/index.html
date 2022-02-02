@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>Inicio</title>
-</head>
-<body>
+{% include 'header.html' %}
     <table class="table table-light">
         <thead class="thead-light">
             <tr>
@@ -25,14 +17,18 @@
                 <td>{{empleado[1]}}</td>
                 <td>{{empleado[2]}}</td>
                 <td>
-                    <a href="/edit/{{empleado[0]}}">Editar |</a>
-                    <a href="/destroy/{{empleado[0]}}">Eliminar</a>
-                     
+                    <button type="button" class="btn btn-warning">
+                        <a href="/edit/{{empleado[0]}}">Editar</a>
+                    </button>
+                    |
+                    <button type="button" class="btn btn-danger">
+                        <a href="/destroy/{{empleado[0]}}">Eliminar</a>
+                    </button>
                 </td>
             </tr>
             {% endfor %}
            
         </tbody>
     </table>
-</body>
-</html>
+
+    {% include 'footer.html' %}

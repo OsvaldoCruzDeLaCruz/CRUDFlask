@@ -18,6 +18,12 @@ mysql.init_app(app)
 CARPETA = os.path.join('uploads')
 app.config['CARPETA']=CARPETA
 
+def delePhoto(id):
+    conn = mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("SELECT foto FROM empleados WHERE id = %s", id)
+    fila = cursor.fetchall()
+    os.remove(os.path.join(app.config['CARPETA'], fila[0][0]))
 
 @app.route('/')
 def index():
@@ -59,6 +65,7 @@ def storage():
 
 @app.route('/destroy/<int:id>')
 def destroy(id):
+    delePhoto(id)
     sql =  f"DELETE FROM `empleados` WHERE `empleados`.`id` = {id}"
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -101,19 +108,19 @@ def update(id):
     conn = mysql.connect()
     cursor=conn.cursor()
     
-    cursor.execute("SELECT foto FROM empleados WHERE id = %s", id)
-    fila = cursor.fetchall()
-    os.remove(os.path.join(app.config['CARPETA'], fila[0][0]))
     
-
+    
     cursor.execute(sql,datos)
     conn.commit()
+    delePhoto(id)
     return redirect('/')
     
 
 @app.route('/uploads/<nombreDeLaFoto>')
 def uploads(nombreDeLaFoto):
     return send_from_directory(app.config['CARPETA'], nombreDeLaFoto)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
